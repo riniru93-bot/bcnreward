@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCN Agency Reward Talent</title>
+<!-- Library Confetti untuk Efek Perayaan -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  body {
+    background: #0a0a0c;
+    background-image: radial-gradient(circle at 50% 0%, #1f1f23 0%, #0a0a0c 70%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #e0e0e0;
+    position: relative; 
+  }
+
+  /* --- KODE WATERMARK OVERLAY --- */
+  body::after {
+    content: "";
+    position: fixed; 
+    top: 0; left: 0; width: 100vw; height: 100vw; 
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Ctext x='70' y='70' font-family='Arial, sans-serif' font-size='13' fill='rgba(212, 175, 55, 0.06)' text-anchor='middle' transform='rotate(-40 70 70)'%3EBe Completely Nice%3C/text%3E%3C/svg%3E");
+    background-repeat: repeat; 
+    z-index: 9999; 
+    pointer-events: none; 
+  }
+
+  .container {
+    width: 100%;
+    max-width: 440px;
+    background: #121214;
+    padding: 20px;
+    border-radius: 24px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.08);
+    position: relative;
+    z-index: 1; 
+  }
+
+  /* --- TAB MENU STYLE --- */
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid #333;
+    color: #888;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+  }
+  .tab-btn.active {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #d4af37;
+    color: #d4af37;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+  }
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* --- INPUT & PRESET SECTION --- */
+  .input-section {
+    background: #17171a;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  .input-label-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  label.main-label {
+    font-weight: 500;
+    color: #b0b0b0;
+    font-size: 12px;
+  }
+  .days-left-badge {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #d4af37;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  input[type=text], input[type=password], input[type=number] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #d4af37;
+    background: #101012;
+    border: 1px solid #333;
+    border-radius: 10px;
+    outline: none;
+    transition: 0.3s;
+  }
+  input:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+  }
+
+  .preset-grid {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .preset-btn {
+    flex: 1;
+    background: #101012;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 8px 4px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .preset-btn:hover, .preset-btn.active {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: #d4af37;
+    color: #d4af37;
+  }
+
+  /* --- BLACK CARD DESIGN --- */
+  .vip-card {
+    background: linear-gradient(135deg, #1c1c21 0%, #0d0d10 50%, #161619 100%);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 18px;
+    padding: 20px;
+    position: relative;
+    box-shadow: inset 0 0 25px rgba(212,175,55,0.05), 0 10px 25px rgba(0,0,0,0.6);
+    margin-bottom: 15px;
+    overflow: hidden;
+  }
+  .vip-card::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .card-brand {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .card-sub-brand {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    color: #888;
+    text-transform: uppercase;
+  }
+  
+  .card-badge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 140px;
+    flex-shrink: 0;
+  }
+  .lion-badge {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #2a2a30, #151518);
+    border: 1px solid #d4af37;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    box-shadow: 0 0 10px rgba(212,175,55,0.3);
+    margin-bottom: 4px;
+  }
+  .card-type-label {
+    font-size: 8px;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: right;
+    font-weight: 600;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-diamond-section {
+    text-align: center;
+    margin: 15px 0 20px 0;
+  }
+  .card-diamond-title {
+    font-size: 10px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .card-diamond-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255,255,255,0.2);
+    letter-spacing: 0.5px;
+  }
+
+  .card-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .metric-box {
+    background: rgba(0,0,0,0.3);
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .metric-title {
+    font-size: 9px;
+    color: #888;
+    text-transform: uppercase;
+  }
+  .metric-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-footer-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #aaa;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 12px;
+  }
+  .status-pill {
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+  .status-pill.unqualified {
+    background: rgba(255, 77, 77, 0.15);
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+  }
+
+  .toggle-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    background: #17171a;
+    border-radius: 14px;
+    border: 1px solid #333;
+  }
+  .toggle-label {
+    flex: 1;
+    font-size: 12px;
+    color: #a0a0a0;
+    cursor: pointer;
+  }
+  .toggle-label b { color: #d4af37; }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    margin-left: 10px;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #333;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px; width: 16px;
+    left: 3px; bottom: 3px;
+    background-color: #888;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider { background-color: #d4af37; }
+  input:checked + .slider:before {
+    transform: translateX(18px);
+    background-color: #121214;
+  }
+
+  .note {
+    margin-top: 15px;
+    background: rgba(212, 175, 55, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-left: 3px solid #d4af37;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 10.5px;
+    color: #a0a0a0;
+    line-height: 1.6;
+  }
+  .note b { color: #d4af37; }
+
+  /* --- ADMIN PANEL STYLE --- */
+  .admin-btn {
+    width: 100%;
+    background: #d4af37;
+    color: #000;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: 0.2s;
+  }
+  .admin-btn:active { transform: scale(0.98); }
+  .talent-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+  .talent-table th, .talent-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #333;
+    text-align: left;
+  }
+  .talent-table th { color: #d4af37; }
+  .btn-action-group {
+    display: flex;
+    gap: 4px;
+  }
+  .btn-copy-code {
+    background: rgba(37, 211, 102, 0.2);
+    color: #25D366;
+    border: 1px solid #25D366;
+    padding: 3px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+  }
+  .btn-edit {
+    background: rgba(212, 175, 55, 0.2);
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 3px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+  }
+  .btn-del {
+    background: rgba(255, 77, 77, 0.2);
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+    padding: 3px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+  }
+
+  /* --- REGISTRASI TAB STYLE --- */
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+  }
+  .status-open {
+    background: rgba(37, 211, 102, 0.1);
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    color: #25D366;
+  }
+  .guide-img {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #333;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    cursor: zoom-in;
+    transition: 0.2s;
+  }
+  .guide-img:hover { transform: scale(1.02); }
+  
+  .copy-box {
+    background: #17171a;
+    border: 1px dashed #d4af37;
+    border-radius: 12px;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .copy-info p { font-size: 10px; color: #888; margin-bottom: 2px; }
+  .copy-info h4 { font-size: 15px; color: #fff; letter-spacing: 1px; }
+  .btn-copy {
+    background: #d4af37;
+    color: #000;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 11px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-copy:active { transform: scale(0.95); }
+
+  .social-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  .social-btn {
+    flex: 1;
+    background: #17171a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    color: #e0e0e0;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.2s;
+  }
+  .social-btn svg { width: 18px; height: 18px; fill: currentColor; }
+  .ig-btn:hover { color: #E1306C; border-color: #E1306C; background: rgba(225, 48, 108, 0.05); }
+  .wa-btn:hover { color: #25D366; border-color: #25D366; background: rgba(37, 211, 102, 0.05); }
+
+  .tnc-box {
+    background: #17171a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-size: 11px;
+    color: #b0b0b0;
+    line-height: 1.6;
+  }
+  .tnc-box b { color: #d4af37; }
+  .tnc-box hr { border: none; border-top: 1px solid #333; margin: 10px 0; }
+
+  /* LIGHTBOX ZOOM */
+  .modal-overlay {
+    display: none; position: fixed; z-index: 9998; left: 0; top: 0; width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
+    justify-content: center; align-items: center; opacity: 0; transition: 0.3s; cursor: zoom-out;
+  }
+  .modal-overlay.show { display: flex; opacity: 1; }
+  .modal-content { max-width: 95%; max-height: 90vh; border-radius: 12px; border: 2px solid #d4af37; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- TAB MENU -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(event, 'kalkulator')">Kalkulator</button>
+    <button class="tab-btn" onclick="switchTab(event, 'registrasi')">Registrasi</button>
+  </div>
+
+  <!-- KONTEN 1: KALKULATOR -->
+  <div id="kalkulator" class="tab-content active">
+    
+    <div class="input-section">
+      <div class="input-label-flex">
+        <label class="main-label">Masukkan Diamond</label>
+        <div class="days-left-badge" id="daysBadge">Sisa: <b>17 Hari</b></div>
+      </div>
+      <input type="text" id="diamond" placeholder="Contoh: 50.000" oninput="onManualInput(this)">
+      
+      <div class="preset-grid">
+        <button class="preset-btn" onclick="setPreset(10000)">10K</button>
+        <button class="preset-btn" onclick="setPreset(100000)">100K</button>
+        <button class="preset-btn" onclick="setPreset(500000)">500K</button>
+        <button class="preset-btn" onclick="setPreset(1000000)">1M</button>
+        <button class="preset-btn" onclick="setPreset(5000000)">5M</button>
+      </div>
+    </div>
+
+    <!-- INPUT SPECIAL TALENT -->
+    <div class="input-section">
+      <div class="input-label-flex">
+        <label class="main-label">Special Talent (Opsional)</label>
+      </div>
+      <input type="text" id="hostCode" placeholder="Contoh: abcd123" oninput="hitung()" style="text-transform: uppercase;">
+    </div>
+
+    <div class="toggle-container">
+      <label class="toggle-label" for="qualified">
+        Memenuhi syarat <b>live wajib minimal 15 hari dan 30 jam</b>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="qualified" checked="checked" onchange="hitung()">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- TAMPILAN KARTU UTAMA -->
+    <div class="vip-card">
+      <div class="card-header-flex">
+        <div>
+          <div class="card-brand">BE COMPLETELY NICE</div>
+          <div class="card-sub-brand">REWARD CALCULATOR</div>
+        </div>
+        <div class="card-badge-container">
+          <div class="lion-badge">🦁</div>
+          <div class="card-type-label" id="tierLabel">NEW TALENT</div>
+        </div>
+      </div>
+
+      <div class="card-diamond-section">
+        <div class="card-diamond-title">TOTAL DIAMOND</div>
+        <div class="card-diamond-value" id="cardDiamondDisplay">0</div>
+      </div>
+
+      <div class="card-metrics-grid">
+        <div class="metric-box">
+          <div class="metric-title">Income (Rp)</div>
+          <div class="metric-val" id="cardIncomeRp">Rp 0</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-title">Reward (Rp)</div>
+          <div class="metric-val" id="cardRewardRp">Rp 0</div>
+        </div>
+      </div>
+
+      <div class="card-footer-flex">
+        <div>
+          <span style="color:#888;">STATUS:</span> <b id="cardStatusText" style="color:#ff4d4d;">UNQUALIFIED</b>
+        </div>
+        <div class="status-pill unqualified" id="cardStatusPill">NOT ELIGIBLE</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>📌 Ketentuan Reward:</b><br><br>
+      ✅ Live wajib minimal <b>15 hari dan 30 jam</b>.<br>
+      ⭐ Masukkan Kode Special Talent yang terdaftar untuk mengaktifkan special reward.<br>
+      ❌ Jika tidak mencapai 15 hari &amp; 30 jam, bonus agency menjadi <b>Rp 0</b>.
+    </div>
+
+    <!-- LINK KECIL KE ADMIN DI BAWAH -->
+    <div style="text-align: right; margin-top: 10px;">
+      <span onclick="bukaAdminModal()" style="font-size: 10px; color: rgb(85, 85, 85); cursor: pointer; transition: 0.2s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='#555'">⚙️ Admin Panel</span>
+    </div>
+  </div>
+
+  <!-- KONTEN 2: REGISTRASI -->
+  <div id="registrasi" class="tab-content">
+    <div class="status-badge status-open">
+      🟢 <b>OPEN RECRUITMENT</b> — BCN sedang menerima talent baru
+    </div>
+
+    <div class="header" style="margin-bottom: 15px;">
+      <h2>PANDUAN REGIS</h2>
+      <div class="sub">Langkah gabung BCN Agency</div>
+    </div>
+    
+    <img src="image_16855b.jpeg" alt="Langkah Registrasi BCN Agency" class="guide-img" onclick="openZoom(this.src)">
+
+    <div class="copy-box">
+      <div class="copy-info">
+        <p>Kode Agency (Union ID):</p>
+        <h4>IDUM-BCNMGMT</h4>
+      </div>
+      <button class="btn-copy" id="copyBtn" onclick="copyKode()">Copy</button>
+    </div>
+
+    <div class="tnc-box">
+  <b>💎 T&amp;C BCN LIVE HOST MICO</b><br>
+  • Periode: 1 Bulan<br><br>
+  
+  <b>💎 Target Live Wajib</b><br>
+  • 15 Valid Days<br>
+  • 30 Valid Hours<br><br>
+  
+  <b>💎 Ketentuan Valid Day</b><br>
+  • 1 Valid Day = minimal 1 jam live<br>
+  • Bisa dicicil (partial), contoh:<br>
+  &nbsp;&nbsp;10 menit + 30 menit + 20 menit = 1 jam (1 Valid Day)<br><br>
+
+  <b>💎 Komisi Talent</b><br>
+  • Jika target 15 hari &amp; 30 jam tercapai, talent bisa withdraw 60% dari total diamond.<br>
+  • Contoh:<br>
+  &nbsp;&nbsp;Income: 100.000 Diamond<br>
+  &nbsp;&nbsp;100.000 × 60% × 100 Perak = Rp6.000.000<br><br>
+
+  <b>💎 Komisi Agency</b><br>
+  • Sesuai tabel agency: Rp480.000<br>
+  • Komisi agency ditransfer ke talent sebesar Rp480.000<br><br>
+
+  <b>💎 Jika Target Tidak Tercapai Penuh</b><br>
+  • Contoh:<br>
+  &nbsp;&nbsp;Income: 98.000 Diamond<br>
+  &nbsp;&nbsp;Komisi agency disesuaikan menjadi Rp441.000<br>
+  &nbsp;&nbsp;Tetap ditransfer oleh agency dengan catatan harus mencapai 15 Valid Days &amp; 30 Valid Hours.<br><br>
+
+  <b>💎 Special Talent Reward</b><br>
+  • Talent yang mendapatkan Special Talent Reward akan memiliki ketentuan reward yang berbeda dari reward standar.<br>
+  • Talent akan diberikan Special Talent Code khusus.<br>
+  • Special Talent Code digunakan untuk melihat detail reward dan benefit yang berlaku untuk talent tersebut.
+</div>
+
+    <div class="social-row">
+      <a href="https://www.instagram.com/bcn.agency.id/" target="_blank" class="social-btn ig-btn">Instagram</a>
+      <a href="https://wa.me/6281388881701" target="_blank" class="social-btn wa-btn">WhatsApp</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL POPUP LOGIN / PANEL ADMIN -->
+<div id="adminModal" class="modal-overlay" onclick="if(event.target === this) tutupAdminModal()">
+  <div style="background: #17171a; border: 1px solid #d4af37; padding: 20px; border-radius: 16px; width: 90%; max-width: 360px; position: relative;">
+    
+    <!-- Bagian Login Admin -->
+    <div id="loginSection" style="display: block;">
+      <h3 style="color:#d4af37; font-size:14px; margin-bottom:8px;">🔐 Login Admin</h3>
+      <input type="password" id="adminPass" placeholder="Masukkan Password" style="font-size:12px; padding:10px; margin-bottom:6px;">
+      <div id="loginErrorMsg" style="font-size: 10.5px; color: rgb(255, 77, 77); margin-bottom: 8px; display: none;">Password salah, bro!</div>
+      <button class="admin-btn" onclick="loginAdmin()">Masuk</button>
+      <button onclick="tutupAdminModal()" style="width:100%; background:transparent; border:none; color:#777; font-size:11px; margin-top:8px; cursor:pointer;">Tutup</button>
+    </div>
+
+    <!-- Bagian Panel Setelah Login -->
+    <div id="panelSection" style="display: none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="color:#d4af37; font-size:13px;">⚙️ Panel Admin BCN</h3>
+        <button onclick="logoutAdmin()" class="btn-del" style="padding:2px 6px; font-size:10px;">Keluar</button>
+      </div>
+
+      <!-- Fitur Ganti Password -->
+      <div style="background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.2); padding: 8px; border-radius: 8px; margin-bottom: 10px;">
+        <label style="font-size: 10px; color: #d4af37; font-weight: 600;">Ganti Password:</label>
+        <div style="display: flex; gap: 4px; margin-top: 3px;">
+          <input type="password" id="newAdminPassword" placeholder="Baru" style="font-size:11px; padding:6px;">
+          <button onclick="gantiPassword()" style="background:#d4af37; border:none; padding:6px 10px; border-radius:6px; font-weight:600; font-size:10px; cursor:pointer;">Simpan</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 8px;">
+        <label style="font-size: 10.5px; color: #aaa;" id="formLabelTitle"><b>Special Talent:</b></label>
+        <input type="text" id="newTalentCode" placeholder="Contoh: abcd123" style="margin-top:2px; margin-bottom:4px; font-size:12px; padding:8px; text-transform:uppercase;">
+        
+        <label style="font-size: 10.5px; color: #aaa;">Level Persentase (30 s.d 40):</label>
+        <input type="number" id="newTalentShare" placeholder="30 - 40" style="margin-top:2px; margin-bottom:4px; font-size:12px; padding:8px;" min="30" max="40">
+        
+        <div id="talentErrorMsg" style="font-size: 10.5px; color: #ff4d4d; margin-bottom: 6px; display: none;"></div>
+
+        <button class="admin-btn" id="btnSubmitTalent" onclick="simpanTalentSpecial()" style="margin-top:0; padding:8px; font-size:11px;">Tambah Talent</button>
+        <button class="admin-btn" id="btnCancelEdit" onclick="batalEdit()" style="margin-top:4px; padding:6px; background:#333; color:#fff; font-size:11px; display:none;">Batal Edit</button>
+      </div>
+
+      <hr style="border:none; border-top:1px solid #333; margin:10px 0;">
+
+      <h4 style="font-size:11px; color:#fff; margin-bottom:4px;">Daftar Special Talent:</h4>
+      <div style="max-height: 120px; overflow-y: auto;">
+        <table class="talent-table">
+          <thead>
+            <tr>
+              <th>Talent</th>
+              <th>Level</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="talentTableBody">
+            <!-- Data ditarik otomatis dari Google Sheets -->
+          </tbody>
+        </table>
+      </div>
+      <button onclick="tutupAdminModal()" style="width:100%; background:#333; color:#fff; border:none; padding:8px; border-radius:8px; font-size:11px; margin-top:12px; cursor:pointer;">Tutup Panel</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX ZOOM -->
+<div id="imageModal" class="modal-overlay" onclick="closeZoom()">
+  <img id="zoomedImg" class="modal-content" src="">
+</div>
+
+<script>
+let adminPassword = "nokia6233";
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbz0c4cA2O9zJJNdr_eTtENFLUQff4MByl88fBsgwY-2PVt2aCRhFVBAI-GsoQbFjrs54w/exec";
+
+let specialTalents = {};
+let editModeCode = null; 
+
+// Fungsi Ambil Data dari Google Sheets
+async function loadTalentsFromSheet() {
+  try {
+    let response = await fetch(SHEET_API_URL);
+    let data = await response.json();
+    specialTalents = data;
+    renderTalentTable();
+    hitung();
+  } catch (error) {
+    console.error("Gagal load data dari Sheets:", error);
+  }
+}
+
+// Fungsi Kirim/Simpan/Hapus Data ke Google Sheets
+async function syncToSheet(action, code, share) {
+  try {
+    await fetch(SHEET_API_URL, {
+      method: "POST",
+      mode: "no-cors", // Mencegah error CORS di browser
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: action, code: code, share: share })
+    });
+  } catch (error) {
+    console.error("Gagal sinkronisasi ke Sheets:", error);
+  }
+}
+
+function switchTab(evt, tabName) {
+  let contents = document.getElementsByClassName("tab-content");
+  for (let c of contents) c.classList.remove("active");
+  let btns = document.getElementsByClassName("tab-btn");
+  for (let b of btns) b.classList.remove("active");
+  document.getElementById(tabName).classList.add("active");
+  evt.currentTarget.classList.add("active");
+}
+
+function openZoom(src) {
+  const m = document.getElementById("imageModal");
+  document.getElementById("zoomedImg").src = src;
+  m.style.display = "flex";
+  setTimeout(() => m.classList.add("show"), 10);
+}
+function closeZoom() {
+  const m = document.getElementById("imageModal");
+  m.classList.remove("show");
+  setTimeout(() => m.style.display = "none", 300);
+}
+
+function bukaAdminModal() {
+  const m = document.getElementById("adminModal");
+  m.style.display = "flex";
+  setTimeout(() => m.classList.add("show"), 10);
+}
+function tutupAdminModal() {
+  const m = document.getElementById("adminModal");
+  m.classList.remove("show");
+  setTimeout(() => {
+    m.style.display = "none";
+    document.getElementById('adminPass').value = "";
+    document.getElementById('loginErrorMsg').style.display = "none";
+    document.getElementById('loginSection').style.display = "block";
+    document.getElementById('panelSection').style.display = "none";
+  }, 300);
+}
+
+function copyKode() {
+  navigator.clipboard.writeText("IDUM-BCNMGMT").then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.innerText = "Copied!";
+    btn.style.background = "#25D366"; btn.style.color = "#fff";
+    setTimeout(() => { btn.innerText = "Copy"; btn.style.background = "#d4af37"; btn.style.color = "#000"; }, 2000);
+  });
+}
+
+function setDaysLeft() {
+  const now = new Date();
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+  const daysLeft = Math.ceil((endOfMonth - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('daysBadge').innerHTML = `Sisa: <b>${daysLeft} Hari</b>`;
+}
+
+window.onload = function() {
+  setDaysLeft();
+  loadTalentsFromSheet();
+};
+
+function formatInput(el) {
+  let n = el.value.replace(/\D/g, '');
+  el.value = n.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+function setPreset(val) {
+  document.getElementById('diamond').value = val.toLocaleString('id-ID');
+  hitung();
+}
+
+function onManualInput(el) {
+  formatInput(el);
+  hitung();
+}
+
+function rupiah(x) {
+  return x.toLocaleString('id-ID');
+}
+
+function getShareByLevel(d, level) {
+  if (d < 10000) return 0;
+  
+  let baseShare = 0.075;
+  if (d <= 99999) baseShare = 0.075;
+  else if (d <= 399999) baseShare = 0.08;
+  else if (d <= 999999) baseShare = 0.085;
+  else if (d <= 1999999) baseShare = 0.09;
+  else if (d <= 4999999) baseShare = 0.095;
+  else baseShare = 0.10;
+
+  if (level <= 30) return baseShare;
+
+  let multiplier = level / 30;
+  return baseShare * multiplier;
+}
+
+function animateValue(id, start, end, duration, isCurrency = false) {
+  let obj = document.getElementById(id);
+  let startTime = null;
+  function animation(currentTime) {
+    if (!startTime) startTime = currentTime;
+    let progress = Math.min((currentTime - startTime) / duration, 1);
+    let currentVal = Math.floor(progress * (end - start) + start);
+    obj.innerText = isCurrency ? "Rp " + rupiah(currentVal) : currentVal.toLocaleString('id-ID');
+    if (progress < 1) {
+      requestAnimationFrame(animation);
+    }
+  }
+  requestAnimationFrame(animation);
+}
+
+let lastTierState = "";
+
+function hitung() {
+  const txt = document.getElementById('diamond').value.replace(/\./g, '');
+  const hostCodeInput = document.getElementById('hostCode').value.trim().toUpperCase();
+  const tierLabel = document.getElementById('tierLabel');
+  const statusText = document.getElementById('cardStatusText');
+  const statusPill = document.getElementById('cardStatusPill');
+  const isQualified = document.getElementById('qualified').checked;
+
+  if (txt === "" || parseInt(txt) === 0) {
+    document.getElementById('cardDiamondDisplay').innerText = "0";
+    document.getElementById('cardIncomeRp').innerText = "Rp 0";
+    document.getElementById('cardRewardRp').innerText = "Rp 0";
+    tierLabel.innerText = "NEW TALENT";
+    statusText.innerText = "UNQUALIFIED";
+    statusText.style.color = "#ff4d4d";
+    statusPill.innerText = "NOT ELIGIBLE";
+    statusPill.className = "status-pill unqualified";
+    lastTierState = "";
+    return;
+  }
+
+  const d = parseInt(txt);
+  animateValue('cardDiamondDisplay', 0, d, 400, false);
+
+  let currentTier = "NEW TALENT";
+  if (d >= 5000000) currentTier = "PRESTIGE TALENT";
+  else if (d >= 1000000) currentTier = "PRO TALENT";
+  else if (d >= 500000) currentTier = "ADVANCED TALENT";
+  else if (d >= 100000) currentTier = "RISING TALENT";
+  else if (d >= 10000) currentTier = "NEW QUALIFIED";
+
+  const incomeRp = d * 60;
+
+  if (!isQualified || d < 10000) {
+    animateValue('cardIncomeRp', 0, 0, 300, true);
+    animateValue('cardRewardRp', 0, 0, 300, true);
+    statusText.innerText = "UNQUALIFIED";
+    statusText.style.color = "#ff4d4d";
+    statusPill.innerText = "NOT ELIGIBLE";
+    statusPill.className = "status-pill unqualified";
+    lastTierState = "";
+    return;
+  }
+
+  animateValue('cardIncomeRp', 0, incomeRp, 400, true);
+
+  let rew = 0;
+  let targetLevel = 30;
+
+  if (hostCodeInput !== "" && specialTalents[hostCodeInput] !== undefined) {
+    targetLevel = specialTalents[hostCodeInput]; 
+  }
+
+  const finalShare = getShareByLevel(d, targetLevel);
+  rew = Math.round(incomeRp * finalShare);
+
+  tierLabel.innerText = currentTier;
+  animateValue('cardRewardRp', 0, rew, 400, true);
+  statusText.innerText = "QUALIFIED";
+  statusText.style.color = "#d4af37";
+  statusPill.innerText = "ELIGIBLE";
+  statusPill.className = "status-pill";
+
+  if (lastTierState !== currentTier) {
+    confetti({
+      particleCount: 70,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#d4af37', '#ffffff']
+    });
+    lastTierState = currentTier;
+  }
+}
+
+// --- FUNGSI ADMIN ---
+function loginAdmin() {
+  const pass = document.getElementById('adminPass').value;
+  const errBox = document.getElementById('loginErrorMsg');
+  if (pass === adminPassword) {
+    errBox.style.display = "none";
+    document.getElementById('loginSection').style.display = "none";
+    document.getElementById('panelSection').style.display = "block";
+    renderTalentTable();
+  } else {
+    errBox.innerText = "Password salah, bro!";
+    errBox.style.display = "block";
+  }
+}
+
+function logoutAdmin() {
+  document.getElementById('adminPass').value = "";
+  document.getElementById('loginErrorMsg').style.display = "none";
+  document.getElementById('panelSection').style.display = "none";
+  document.getElementById('loginSection').style.display = "block";
+  batalEdit();
+}
+
+function gantiPassword() {
+  const newPass = document.getElementById('newAdminPassword').value.trim();
+  const talentErr = document.getElementById('talentErrorMsg');
+  if (!newPass) {
+    talentErr.innerText = "Password baru tidak boleh kosong!";
+    talentErr.style.display = "block";
+    return;
+  }
+  adminPassword = newPass;
+  document.getElementById('newAdminPassword').value = "";
+  talentErr.style.display = "none";
+  alert("Password admin berhasil diganti!");
+}
+
+function simpanTalentSpecial() {
+  const code = document.getElementById('newTalentCode').value.trim().toUpperCase();
+  const share = parseInt(document.getElementById('newTalentShare').value);
+  const errBox = document.getElementById('talentErrorMsg');
+
+  if (!code || isNaN(share) || share < 30 || share > 40) {
+    errBox.innerText = "Isi nama & level (30-40) dengan benar!";
+    errBox.style.display = "block";
+    return;
+  }
+
+  errBox.style.display = "none";
+  specialTalents[code] = share;
+  
+  // Kirim data ke Google Sheets secara background
+  syncToSheet('save', code, share);
+
+  document.getElementById('newTalentCode').value = "";
+  document.getElementById('newTalentShare').value = "";
+  
+  if (editModeCode) {
+    batalEdit();
+  }
+
+  renderTalentTable();
+  hitung();
+  
+  // Kasih jeda sedikit biar data sempat masuk ke Sheets sebelum di-reload ulang
+  setTimeout(() => { loadTalentsFromSheet(); }, 1500);
+}
+
+function editTalent(code) {
+  editModeCode = code;
+  document.getElementById('newTalentCode').value = code;
+  document.getElementById('newTalentCode').disabled = true;
+  document.getElementById('newTalentShare').value = specialTalents[code];
+  document.getElementById('formLabelTitle').innerHTML = `<b>Edit Level untuk Special Talent: ${code}</b>`;
+  document.getElementById('btnSubmitTalent').innerText = "Update Level";
+  document.getElementById('btnCancelEdit').style.display = "block";
+  document.getElementById('talentErrorMsg').style.display = "none";
+}
+
+function copyTalentCode(code, btnEl) {
+  navigator.clipboard.writeText(code).then(() => {
+    let originalText = btnEl.innerText;
+    btnEl.innerText = "Copied!";
+    btnEl.style.background = "#fff";
+    btnEl.style.color = "#000";
+    setTimeout(() => {
+      btnEl.innerText = originalText;
+      btnEl.style.background = "rgba(37, 211, 102, 0.2)";
+      btnEl.style.color = "#25D366";
+    }, 1500);
+  });
+}
+
+function batalEdit() {
+  editModeCode = null;
+  document.getElementById('newTalentCode').value = "";
+  document.getElementById('newTalentCode').disabled = false;
+  document.getElementById('newTalentShare').value = "";
+  document.getElementById('formLabelTitle').innerHTML = "<b>Special Talent:</b>";
+  document.getElementById('btnSubmitTalent').innerText = "Tambah Talent";
+  document.getElementById('btnCancelEdit').style.display = "none";
+  document.getElementById('talentErrorMsg').style.display = "none";
+}
+
+function hapusTalent(code) {
+  if (confirm(`Yakin ingin menghapus Special Talent ${code}?`)) {
+    delete specialTalents[code];
+    
+    // Kirim perintah hapus ke Google Sheets
+    syncToSheet('delete', code, 0);
+
+    renderTalentTable();
+    hitung();
+    if (editModeCode === code) batalEdit();
+
+    setTimeout(() => { loadTalentsFromSheet(); }, 1500);
+  }
+}
+
+function renderTalentTable() {
+  const tbody = document.getElementById('talentTableBody');
+  tbody.innerHTML = "";
+  for (let code in specialTalents) {
+    let tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><b>${code}</b></td>
+      <td>${specialTalents[code]}%</td>
+      <td>
+        <div class="btn-action-group">
+          <button class="btn-copy-code" onclick="copyTalentCode('${code}', this)">Copy</button>
+          <button class="btn-edit" onclick="editTalent('${code}')">Edit</button>
+          <button class="btn-del" onclick="hapusTalent('${code}')">Hapus</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+</script>
+
+</body>
+</html>
