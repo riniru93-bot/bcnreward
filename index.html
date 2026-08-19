@@ -638,39 +638,39 @@
     </div>
 
     <div class="tnc-box">
-  <b>💎 T&amp;C BCN LIVE HOST MICO</b><br>
-  • Periode: 1 Bulan<br><br>
-  
-  <b>💎 Target Live Wajib</b><br>
-  • 15 Valid Days<br>
-  • 30 Valid Hours<br><br>
-  
-  <b>💎 Ketentuan Valid Day</b><br>
-  • 1 Valid Day = minimal 1 jam live<br>
-  • Bisa dicicil (partial), contoh:<br>
-  &nbsp;&nbsp;10 menit + 30 menit + 20 menit = 1 jam (1 Valid Day)<br><br>
+      <b>💎 T&amp;C BCN LIVE HOST MICO</b><br>
+      • Periode: 1 Bulan<br><br>
+      
+      <b>💎 Target Live Wajib</b><br>
+      • 15 Valid Days<br>
+      • 30 Valid Hours<br><br>
+      
+      <b>💎 Ketentuan Valid Day</b><br>
+      • 1 Valid Day = minimal 1 jam live<br>
+      • Bisa dicicil (partial), contoh:<br>
+      &nbsp;&nbsp;10 menit + 30 menit + 20 menit = 1 jam (1 Valid Day)<br><br>
 
-  <b>💎 Komisi Talent</b><br>
-  • Jika target 15 hari &amp; 30 jam tercapai, talent bisa withdraw 60% dari total diamond.<br>
-  • Contoh:<br>
-  &nbsp;&nbsp;Income: 100.000 Diamond<br>
-  &nbsp;&nbsp;100.000 × 60% × 100 Perak = Rp6.000.000<br><br>
+      <b>💎 Komisi Talent</b><br>
+      • Jika target 15 hari &amp; 30 jam tercapai, talent bisa withdraw 60% dari total diamond.<br>
+      • Contoh:<br>
+      &nbsp;&nbsp;Income: 100.000 Diamond<br>
+      &nbsp;&nbsp;100.000 × 60% × 100 Perak = Rp6.000.000<br><br>
 
-  <b>💎 Komisi Agency</b><br>
-  • Sesuai tabel agency: Rp480.000<br>
-  • Komisi agency ditransfer ke talent sebesar Rp480.000<br><br>
+      <b>💎 Komisi Agency</b><br>
+      • Sesuai tabel agency: Rp480.000<br>
+      • Komisi agency ditransfer ke talent sebesar Rp480.000<br><br>
 
-  <b>💎 Jika Target Tidak Tercapai Penuh</b><br>
-  • Contoh:<br>
-  &nbsp;&nbsp;Income: 98.000 Diamond<br>
-  &nbsp;&nbsp;Komisi agency disesuaikan menjadi Rp441.000<br>
-  &nbsp;&nbsp;Tetap ditransfer oleh agency dengan catatan harus mencapai 15 Valid Days &amp; 30 Valid Hours.<br><br>
+      <b>💎 Jika Target Tidak Tercapai Penuh</b><br>
+      • Contoh:<br>
+      &nbsp;&nbsp;Income: 98.000 Diamond<br>
+      &nbsp;&nbsp;Komisi agency disesuaikan menjadi Rp441.000<br>
+      &nbsp;&nbsp;Tetap ditransfer oleh agency dengan catatan harus mencapai 15 Valid Days &amp; 30 Valid Hours.<br><br>
 
-  <b>💎 Special Talent Reward</b><br>
-  • Talent yang mendapatkan Special Talent Reward akan memiliki ketentuan reward yang berbeda dari reward standar.<br>
-  • Talent akan diberikan Special Talent Code khusus.<br>
-  • Special Talent Code digunakan untuk melihat detail reward dan benefit yang berlaku untuk talent tersebut.
-</div>
+      <b>💎 Special Talent Reward</b><br>
+      • Talent yang mendapatkan Special Talent Reward akan memiliki ketentuan reward yang berbeda dari reward standar.<br>
+      • Talent akan diberikan Special Talent Code khusus.<br>
+      • Special Talent Code digunakan untuk melihat detail reward dan benefit yang berlaku untuk talent tersebut.
+    </div>
 
     <div class="social-row">
       <a href="https://www.instagram.com/bcn.agency.id/" target="_blank" class="social-btn ig-btn">Instagram</a>
@@ -833,9 +833,16 @@ function copyKode() {
 
 function setDaysLeft() {
   const now = new Date();
+  
+  const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+  let tanggal = now.getDate();
+  let bulan = namaBulan[now.getMonth()];
+  let tahun = now.getFullYear();
+
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
   const daysLeft = Math.ceil((endOfMonth - now) / (1000 * 60 * 60 * 24));
-  document.getElementById('daysBadge').innerHTML = `Sisa: <b>${daysLeft} Hari</b>`;
+  
+  document.getElementById('daysBadge').innerHTML = `${tanggal} ${bulan} ${tahun} (Sisa: <b>${daysLeft} Hari</b>)`;
 }
 
 window.onload = function() {
@@ -1021,7 +1028,6 @@ function simpanTalentSpecial() {
   errBox.style.display = "none";
   specialTalents[code] = share;
   
-  // Kirim data ke Google Sheets secara background
   syncToSheet('save', code, share);
 
   document.getElementById('newTalentCode').value = "";
@@ -1034,7 +1040,6 @@ function simpanTalentSpecial() {
   renderTalentTable();
   hitung();
   
-  // Kasih jeda sedikit biar data sempat masuk ke Sheets sebelum di-reload ulang
   setTimeout(() => { loadTalentsFromSheet(); }, 1500);
 }
 
@@ -1078,7 +1083,6 @@ function hapusTalent(code) {
   if (confirm(`Yakin ingin menghapus Special Talent ${code}?`)) {
     delete specialTalents[code];
     
-    // Kirim perintah hapus ke Google Sheets
     syncToSheet('delete', code, 0);
 
     renderTalentTable();
